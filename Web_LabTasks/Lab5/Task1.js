@@ -22,7 +22,7 @@ function getLowestSteps() {
     console.log("Lowest is, ",lowest);
 }
 
-//getLowestSteps();
+getLowestSteps();
 
 function getAverageSteps() {
     //let max = 0, current = 0;
@@ -31,7 +31,7 @@ function getAverageSteps() {
     //console.log(size);
     console.log("Average is, ",total/size);
 }
-//getAverageSteps();
+getAverageSteps();
 
 function getAboveAverageDays() {
     let total = l.reduce((total, current) => total + current, 0);
@@ -44,12 +44,4 @@ getAboveAverageDays();
 console.log(l);
 
 //-----------------
-
-//Task 2
-
-var attendees;
-
-function addAttendee(name, email, ticketType){
-    attendees.push({name, email, ticketType});
-}
 
