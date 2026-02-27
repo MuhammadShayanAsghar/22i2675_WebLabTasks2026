@@ -1,0 +1,104 @@
+
+<html>
+
+<head>
+    <title>Counter Application</title>
+    
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: gray;
+            font-family: Arial, sans-serif;
+        }
+
+        .counter-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 350px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: blue;
+        }
+
+        .display {
+            font-size: 48px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: blue;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: white;
+            background-color: blue;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+<div class="counter-container">
+    <h1>Counter App</h1>
+    <div class="display" id="countDisplay">0</div>
+    
+    <div class="buttons">
+        <button class="increment" id="incrementBtn">Increment</button>
+        <button class="decrement" id="decrementBtn">Decrement</button>
+        <button class="reset" id="resetBtn">Reset</button>
+    </div>
+</div>
+
+<script>
+    let count = 0;
+
+    const display = document.getElementById("countDisplay");
+    const incrementBtn = document.getElementById("incrementBtn");
+    const decrementBtn = document.getElementById("decrementBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function updateDisplay() {
+        display.textContent = count;
+    }
+
+    incrementBtn.addEventListener("click", function() {
+        count++;
+        updateDisplay();
+    });
+
+    decrementBtn.addEventListener("click", function() {
+        count--;
+        updateDisplay();
+    });
+
+    resetBtn.addEventListener("click", function() {
+        count = 0;
+        updateDisplay();
+    });
+</script>
+
+</body>
+</html>

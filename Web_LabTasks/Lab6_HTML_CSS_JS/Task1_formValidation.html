@@ -1,0 +1,228 @@
+<html>
+    <head>
+        <title>Form validation</title>
+    </head>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input.valid {
+            border-color: green;
+        }
+
+        input.invalid {
+            border-color: red;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            height: 14px;
+            margin-top: 3px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+
+    </style>
+
+    <body>
+        <form>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="name">
+                <div class="error" id="nameError"></div>
+            </div>
+        
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" id="email">
+                <div class="error" id="emailError"></div>
+            </div>
+        
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password">
+                <div class="error" id="passwordError"></div>
+            </div>
+        
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirm">
+                <div class="error" id="confirmError"></div>
+            </div>
+        
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" id="age">
+                <div class="error" id="ageError"></div>
+            </div>
+
+           <button id="submitBtn" disabled>Submit</button>
+
+        </form>
+
+        <script>
+                
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const confirmInput = document.getElementById("confirm");
+        const ageInput = document.getElementById("age");
+        const submitBtn = document.getElementById("submitBtn");
+
+        function validateName() {
+            const value = nameInput.value.trim();
+            if (value.length >= 3) {
+                setValid(nameInput, "nameError", "");
+                return true;
+            } else {
+                setInvalid(nameInput, "nameError", "Minimum 3 characters required");
+                return false;
+            }
+        }
+
+        function validateEmail() {
+            const value = emailInput.value.trim();
+            if (value.includes("@") && value.includes(".")) {
+                setValid(emailInput, "emailError", "");
+                return true;
+            } else {
+                setInvalid(emailInput, "emailError", "Email must contain @ and .");
+                return false;
+            }
+        }
+
+        function validatePassword() {
+            const value = passwordInput.value;
+            const hasNumber = /\d/.test(value);
+            if (value.length >= 6 && hasNumber) {
+                setValid(passwordInput, "passwordError", "");
+                return true;
+            } else {
+                setInvalid(passwordInput, "passwordError", "Min 6 chars + at least 1 number");
+                return false;
+            }
+        }
+
+        function validateConfirm() {
+            if (confirmInput.value === passwordInput.value && confirmInput.value !== "") {
+                setValid(confirmInput, "confirmError", "");
+                return true;
+            } else {
+                setInvalid(confirmInput, "confirmError", "Passwords must match");
+                return false;
+            }
+        }
+
+        function validateAge() {
+            const value = parseInt(ageInput.value);
+            if (value >= 18 && value <= 60) {
+                setValid(ageInput, "ageError", "");
+                return true;
+            } else {
+                setInvalid(ageInput, "ageError", "Age must be between 18 and 60");
+                return false;
+            }
+        }
+
+        function setValid(input, errorId, message) {
+            input.classList.remove("invalid");
+            input.classList.add("valid");
+            document.getElementById(errorId).textContent = message;
+        }
+
+        function setInvalid(input, errorId, message) {
+            input.classList.remove("valid");
+            input.classList.add("invalid");
+            document.getElementById(errorId).textContent = message;
+        }
+
+        function checkFormValidity() {
+            const isValid =
+                validateName() &&
+                validateEmail() &&
+                validatePassword() &&
+                validateConfirm() &&
+                validateAge();
+
+            submitBtn.disabled = !isValid;
+        }
+
+        nameInput.addEventListener("input", () => {
+            validateName();
+            checkFormValidity();
+        });
+
+        emailInput.addEventListener("input", () => {
+            validateEmail();
+            checkFormValidity();
+        });
+
+        passwordInput.addEventListener("input", () => {
+            validatePassword();
+            validateConfirm();
+            checkFormValidity();
+        });
+
+        confirmInput.addEventListener("input", () => {
+            validateConfirm();
+            checkFormValidity();
+        });
+
+        ageInput.addEventListener("input", () => {
+            validateAge();
+            checkFormValidity();
+        });
+    </script>
+        
+    </body>
+</html>
