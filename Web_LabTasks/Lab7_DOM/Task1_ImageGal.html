@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dynamic Gallery</title>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+margin:20px;
+}
+
+button{
+padding:8px;
+margin:5px;
+cursor:pointer;
+}
+
+input{
+padding:6px;
+margin:5px;
+}
+
+.gallery{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+margin-top:20px;
+}
+
+.item{
+width:200px;
+cursor:pointer;
+}
+
+.item img{
+width:100%;
+border-radius:5px;
+}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:white;
+padding:20px;
+border-radius:8px;
+width:60%;
+}
+
+.modal-content img{
+width:100%;
+}
+
+.close{
+float:right;
+cursor:pointer;
+font-size:22px;
+}
+</style>
+</head>
+
+<body>
+
+<h2> Dynamic Image Gallery </h2>
+
+<input type="text" id="imgURL" placeholder="Image URL">
+<input type="text" id="imgTitle" placeholder="Title">
+<input type="text" id="imgDesc" placeholder="Description">
+<select id="imgCategory" placeholder="Category">
+    <option value="Nature">Nature</option>
+    <option value="Architecture">Architecture</option>
+    <option value="Animals">Animals</option>
+</select>
+
+<button id="addImage">Add Image</button>
+
+
+<div id="filters"></div>
+
+<div class="gallery" id="gallery"></div>
+
+
+
+<script>
+
+let images = [
+{
+imageURL:"https://plus.unsplash.com/premium_photo-1673240367277-e1d394465b56?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91bnRhaW58ZW58MHx8MHx8fDA%3D",
+title:"Mountain",
+description:"",
+category:"Nature"
+},
+{
+imageURL:"https://images.unsplash.com/photo-1448375240586-882707db888b?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9yZXN0fGVufDB8fDB8fHww",
+title:"Forest",
+description:"",
+category:"Nature"
+},
+{
+imageURL:"https://plus.unsplash.com/premium_photo-1676657954811-9409c4830467?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YnVpbGRpbmd8ZW58MHx8MHx8fDA%3D",
+title:"Building",
+description:"",
+category:"Architecture"
+},
+{
+imageURL:"https://images.unsplash.com/photo-1429041966141-44d228a42775?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnJpZGdlfGVufDB8fDB8fHww",
+title:"Bridge",
+description:"",
+category:"Architecture"
+},
+{
+imageURL:"https://plus.unsplash.com/premium_photo-1669725687221-6fe12c2da6b1?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TGlvbnxlbnwwfHwwfHx8MA%3D%3D",
+title:"Lion",
+description:"",
+category:"Animals"
+}
+];
+
+function displayImages(category="All"){
+
+$("#gallery").empty();
+
+$.each(images,function(index,img){
+
+if(category==="All" || img.category===category){
+
+let item = `
+<div class="item"
+data-img="${img.imageURL}"
+data-title="${img.title}"
+data-desc="${img.description}">
+<img src="${img.imageURL}">
+<p>${img.title}</p>
+</div>
+`;
+
+$("#gallery").append(item);
+
+}
+
+});
+
+}
+
+function createFilters(){
+
+$("#filters").empty();
+
+let categories=["All"];
+
+$.each(images,function(i,img){
+
+if(!categories.includes(img.category)){
+categories.push(img.category);
+}
+
+});
+
+$.each(categories,function(i,cat){
+
+let btn=`<button class="filter-btn" data-cat="${cat}">${cat}</button>`;
+$("#filters").append(btn);
+
+});
+
+}
+
+$(document).ready(function(){
+
+createFilters();
+displayImages();
+
+$(document).on("click",".filter-btn",function(){
+
+let category=$(this).data("cat");
+displayImages(category);
+
+});
+
+
+
+$("#addImage").click(function(){
+
+let newImage={
+imageURL:$("#imgURL").val(),
+title:$("#imgTitle").val(),
+description:$("#imgDesc").val(),
+category:$("#imgCategory").val()
+};
+
+images.push(newImage);
+
+createFilters();
+displayImages();
+
+$("input").val("");
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
